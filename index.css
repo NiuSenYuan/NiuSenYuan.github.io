@@ -1,5 +1,6 @@
 body {
-    background-image: url(https://img95.699pic.com/photo/40250/3647.jpg_wh300.jpg);
+    background-image: url(https://images.pexels.com/photos/547115/pexels-photo-547115.jpeg);
+    background-position:percentage;
     background-color:blue;
     font-family: 'Arial', sans-serif;
     margin: 0;
