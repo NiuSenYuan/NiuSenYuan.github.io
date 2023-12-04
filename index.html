@@ -1,24 +1,1282 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selina</title>
-    <link rel="stylesheet" href="index.css">
+    <title>个人空间</title>
+
+    <link rel="stylesheet" href="/newSpace/css/layui.css?t=1701664569950" type="text/css">
+    <link rel="stylesheet" href="/nervous/css/global.css?t=1701664569950">
+    <link rel="stylesheet" href="/nervous/css/appicons1.css?t=1701664569950">
+    <link rel="stylesheet" href="/nervous/css/iconStyle.css?t=1701664569950">
+    <link rel="stylesheet" href="/nervous/css/common.css?t=1701664569950">
+    <link rel="stylesheet" href="/nervous/css/jquery.mCustomScrollbar.css?t=1701664569950">
+    <link rel="stylesheet" href="/nervous/css/index.css?t=1701664569950">
+    <link rel="stylesheet" href="/nervous/css/company-popup.css?t=1701664569950">
+    <script type="text/javascript" src="/js/jquery-3.6.0.min.js?t=1701664569950"></script>
+    <script type="text/javascript" src="/js/cookie.js?t=1701664569950"></script>
+    <script type="text/javascript" src="/staticfile/layui/layui.js?t=1701664569950"></script>
 </head>
 
 <body>
-    <h1>NiuSenYuan</h1>
-    <audio src="E:\CloudMusic\与我于微 - Windy Hill (钢琴曲).mp3" controls="controls" autoplay="autoplay">
-    <p>
-        像倦鸟失了归期
-    </p>
-    <footer>
-        <p>&copy; 2023 NiuSenYuan. All rights reserved.</p>
-    </footer>
-    <script src="scripts.js"></script>
+
+    <!-- 默认状态下/通栏状态下给  左侧设置宽度
+			<style>
+			.con .con-left {
+				width: 220px;
+			}
+		</style>
+		-->
+    <!-- 左侧划过 背景色或者颜色样式 -->
+    <style>
+        .con .con-left .menu a:hover {
+            background: #2439A9;
+        }
+    </style>
+    <!-- 左侧选中 背景色或者颜色样式 -->
+    <style>
+        .con .con-left .menu a.active {
+            background: #5965C9;
+        }
+    </style>
+    <!-- 左侧选中 字体颜色样式 -->
+    <style>
+        .con .con-left .menu a.active {
+            color: #ffffff;
+        }
+    </style>
+    <!-- 左侧默认 字体颜色样式 -->
+    <style>
+        .con .con-left .menu a {
+            color: #ffffff;
+        }
+    </style>
+    <style>
+        .con .con-right .right-con .center {
+            margin: 0 auto !important;
+        }
+    </style>
+
+    <!-- 空间默认头部/设置头部引入-->
+    <!-- 左侧选中 背景色或者颜色样式 -->
+    <style>
+        .header .space-con .nav li.user .user-popup {
+            background: url("http://p.ananas.chaoxing.com/star3/origin/8dbc96051e7bc028511bb1a5c48bf7d8") no-repeat center right;
+            background-size: cover;
+        }
+    </style>
+    <div class="header"
+        style="background:url(http://p.ananas.chaoxing.com/star3/origin/8dbc96051e7bc028511bb1a5c48bf7d8) no-repeat center;background-size:cover;color:#ffffff">
+        <div class="space-unit">
+            <h3 tabindex="0" id="siteName" title="东北林业大学(学生)" openurl="">
+                东北林业大学(学生)
+            </h3>
+        </div>
+        <div class="space-con">
+            <div class="head-nav" style="display:none;" id="headNav">
+                <div class="head-nav-list">
+                    <ul>
+
+                    </ul>
+                </div>
+                <div class="head-nav-more">
+                    <div class="head-more"></div>
+                    <div class="head-more-list">
+                        <ul>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <ul class="nav fr" style="position:relative">
+                <li tabindex="-1" class="appCode" style="color: #ffffff;display: block;">输入邀请码</li>
+                <li class="user">
+                    <img class="icon-head" src="http://photo.chaoxing.com/p/238431463_80">
+                    <h3 aria-label="账号：牛森源" tabindex="0">牛森源</h3>
+                    <span class="icon-down02  icon-h-arrow-l"></span>
+                    <div class="user-popup">
+                        <ul>
+                            <!--科研图书馆定制 http://pm.chaoxing.com/issues/327668 复旦大学附属中学定制 http://pm.chaoxing.com/issues/338855 http://pm.chaoxing.com/issues/349469 http://pm.chaoxing.com/issues/350732-->
+                            <li onclick="setUrl('account','/base/settings?t=1701664569951');">账号管理</li>
+                            <!--
+    								<li onclick="setUrl('recentsapp','/base/getRecentsApp');">最近使用</li>
+    								-->
+                            <li onclick="siteListShow();">切换单位/角色</li>
+                            <li onclick="logout()">退出空间</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            var url = window.location.protocol + "//" + window.location.host;
+            var refer = document.URL;
+            var source = getCookie("source");
+            var backUrl = '';
+            if (backUrl != null && backUrl != undefined && backUrl != '' && backUrl != 'null') {
+                url = backUrl
+            } else {
+                if (refer.indexOf("i.chaoxing.com") != -1) {
+                    url = window.location.protocol + "//i.chaoxing.com";
+                    if (source.indexOf("num") != -1) {
+                        var flag = "v" + source.substring(3);
+                        if (flag != null && flag != undefined && flag == 'v100') {
+                            flag = "cv";
+                        }
+                        url = window.location.protocol + "//" + flag + ".chaoxing.com?fid=" + getCookie("fid");
+                    }
+                }
+            }
+            setCookie('source', '', 1, "chaoxing.com");
+            $.ajax({
+                url: "/base/logout",
+                success: function () {
+                }
+            })
+            setCookie('source', '', 1, "chaoxing.com");
+            if (window.location.host == "ddxt.sysu.edu.cn") {
+                window.location.href = "https://ddxt.sysu.edu.cn/passport/logout.html?refer=" + encodeURI(url);
+            } else {
+                var logoutUrl = window.location.protocol + "//passport2.chaoxing.com/logout.html?refer=" + encodeURI(url);
+                var model_logoutUrl = "";
+                var templateSetting_logoutUrl = "";
+                if (model_logoutUrl != null && model_logoutUrl != undefined && model_logoutUrl != '' && model_logoutUrl != 'null') {
+                    logoutUrl = model_logoutUrl.indexOf("?") > -1 ? model_logoutUrl + "&refer=" + encodeURI(url) : model_logoutUrl + "?refer=" + encodeURI(url);
+                } else if (templateSetting_logoutUrl != null && templateSetting_logoutUrl != undefined && templateSetting_logoutUrl != '' && templateSetting_logoutUrl != 'null') {
+                    logoutUrl = templateSetting_logoutUrl.indexOf("?") > -1 ? templateSetting_logoutUrl + "&refer=" + encodeURI(url) : templateSetting_logoutUrl + "?refer=" + encodeURI(url);
+                }
+                window.location.href = logoutUrl;
+            }
+        }
+        $(document).ready(function () {
+            $(".user").mouseover(function () {
+                $(".user-popup").show();
+            });
+            $(".user").mouseout(function () {
+                $(".user-popup").hide();
+            });
+        })
+
+        function downloadPc() {
+            window.open("http://appmarket.chaoxing.com/static/custom/xxt/pc/download.html");
+        }
+
+        function downloadZb() {
+            window.open("https://zhibo.chaoxing.com/download");
+        }
+
+        $(".header .space-unit img,h3").on("click", function (e) {
+            e.stopPropagation();
+            var openUrl = $(this).attr("openurl");
+            var topUrlType = "";
+            if (topUrlType == "1") {
+                openUrl = '';
+            }
+            if (openUrl != null && openUrl != undefined && openUrl != '' && openUrl != 'null') {
+                window.parent.open(openUrl);
+            }
+        })
+
+    </script>
+
+    <div class="con">
+
+
+        <div class="con-left con-left-float" style="background:#4D58B5;color:#ffffff; ">
+            <div class="user-block">
+                <img class="head-img" src="http://photo.chaoxing.com/p/238431463_80">
+                <p class="user-name">牛森源</p>
+            </div>
+            <div class="menu mCustomScrollbar _mCS_1" style="height: calc(100vh - 326px);">
+                <div id="mCSB_1" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_inside" style="max-height: none;"
+                    tabindex="0">
+                    <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;"
+                        dir="ltr">
+                        <div role="menubar" class="menubar">
+
+
+
+
+                            <a role="menuitem" focus_element="1" tabindex="0" name="首页" id="first409652"
+                                onclick="setUrl('409652','https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844"
+                                class="active" aria-label="首页菜单项已访问">
+                                <span class="icon-space icon-sy"></span>
+                                <h5 title="首页">
+                                    首页
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="常用" id="first409653"
+                                onclick="setUrl('409653','https://i.chaoxing.com/base/indexNew?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://i.chaoxing.com/base/indexNew?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-more-s"></span>
+                                <h5 title="常用">
+                                    常用
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="课程" id="first409655"
+                                onclick="setUrl('409655','https://mooc2-ans.chaoxing.com/visit/interaction?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://mooc2-ans.chaoxing.com/visit/interaction?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-kc"></span>
+                                <h5 title="课程">
+                                    课程
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="笔记" id="first409656"
+                                onclick="setUrl('409656','https://groupyd2.chaoxing.com/pc/activity/activityList?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://groupyd2.chaoxing.com/pc/activity/activityList?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-bj"></span>
+                                <h5 title="笔记">
+                                    笔记
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="消息" id="first409657"
+                                onclick="setUrl('409657','https://im.chaoxing.com/webim/me?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://im.chaoxing.com/webim/me?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-xx"></span>
+                                <h5 title="消息">
+                                    消息
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="小组" id="first409659"
+                                onclick="setUrl('409659','https://groupweb.chaoxing.com/pc/circle/circleIndex?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://groupweb.chaoxing.com/pc/circle/circleIndex?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-xz"></span>
+                                <h5 title="小组">
+                                    小组
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="云盘" id="first409660"
+                                onclick="setUrl('409660','https://pan-yz.chaoxing.com/pcuserpan/index?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://pan-yz.chaoxing.com/pcuserpan/index?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-yp"></span>
+                                <h5 title="云盘">
+                                    云盘
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="通讯录" id="first409661"
+                                onclick="setUrl('409661','https://contactsyd.chaoxing.com/pc/contacts/home?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://contactsyd.chaoxing.com/pc/contacts/home?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-txl"></span>
+                                <h5 title="通讯录">
+                                    通讯录
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="收件箱" id="first409663"
+                                onclick="setUrl('409663','https://notice.chaoxing.com/pc/notice/myNotice?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://notice.chaoxing.com/pc/notice/myNotice?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-yj-s"></span>
+                                <h5 title="收件箱">
+                                    收件箱
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                                <span class="inform-txt" style="display: none;"><i>0</i></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="新版课程" id="first94118"
+                                onclick="setUrl('94118','https://fycourse.fanya.chaoxing.com/wfw/courselist/coursemoreplat?s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://fycourse.fanya.chaoxing.com/wfw/courselist/coursemoreplat?s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-zy-s"></span>
+                                <h5 title="新版课程">
+                                    新版课程
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+
+
+                            <a role="menuitem" focus_element="0" tabindex="-1" name="新版课表" id="first94119"
+                                onclick="setUrl('94119','https://kb.chaoxing.com/res/pc/curriculum/schedule.html?learnModel=3&amp;s=9f3babd15d57d94a4af707cec0825844',this,'0');"
+                                imgname="icon-home"
+                                dataurl="https://kb.chaoxing.com/res/pc/curriculum/schedule.html?learnModel=3&amp;s=9f3babd15d57d94a4af707cec0825844">
+                                <span class="icon-space icon-zy-s"></span>
+                                <h5 title="新版课表">
+                                    新版课表
+                                </h5>
+                                <span class="arrow icon-uniE900"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="mCSB_1_scrollbar_vertical"
+                        class="mCSB_scrollTools mCSB_1_scrollbar mCS-dark mCSB_scrollTools_vertical"
+                        style="display: block;">
+                        <div class="mCSB_draggerContainer">
+                            <div id="mCSB_1_dragger_vertical" class="mCSB_dragger"
+                                style="position: absolute; min-height: 30px; display: block; height: 0px; max-height: 371px; top: 0px;">
+                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                            </div>
+                            <div class="mCSB_draggerRail"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="/js/lang.js"></script>
+        <script type="text/javascript" src="/nervous/js/jquery.min.js"></script>
+        <script>
+            jQuery(document).ready(function () {
+                changeLanguage();
+            });
+            var scheme = 'https';
+            if (scheme != null && scheme != undefined && scheme != '') {
+                scheme = scheme + '://' + window.location.host;
+            } else {
+                scheme = 'http://' + window.location.host;
+            }
+            var navFlag = false;
+            $(document).ready(function () {
+                if ($("#first96313").length > 0) {
+                    var url = 'https';
+                    var fid = '1032';
+                    var uid = '238431463';
+                    if (fid != null && fid != undefined && fid != "" && uid != null && uid != undefined && uid != "") {
+                        if (url != null && url != undefined && url != '') {
+                            url = url + '://' + 'fdsmonline.px.chaoxing.com/finance/order/checkSfkp?schoolId=';
+                        } else {
+                            url = 'http://fdsmonline.px.chaoxing.com/finance/order/checkSfkp?schoolId=';
+                        }
+                        $.ajax({
+                            url: url + fid + '&uid=' + uid,
+                            dataType: 'json',
+                            type: 'get',
+                            success: function (data) {
+                                if (data.status) {
+                                    $(".red-point").show()
+                                }
+                            }
+                        })
+                    }
+                }
+                // 个性签名
+                if ($(".signature-wrap").length > 0) {
+                    let signatureEle = $(".signature-wrap");
+                    let signatureOffSetT = signatureEle.offset().top + signatureEle.height() + 10,
+                        signatureOffSetL = $("#signature").offset().left;
+                    $("#signatureCon").css({
+                        "left": signatureOffSetL,
+                        "top": signatureOffSetT
+                    })
+                    $("#signature").mouseenter(function () {
+
+                        $("#signatureCon").fadeIn("fast");
+                    }).mouseleave(function () {
+                        $("#signatureCon").fadeOut("fast");
+                    })
+                }
+
+                $(".con-right .right-con ").css("margin-top", "80px");
+                if ('238431463' != '') {
+                    var id = '238431463';
+                    var phono = "http://photo.chaoxing.com/p/" + id + "_80";
+                    $(".icon-head").attr("src", phono);
+                    $(".head-img").attr("src", phono);
+                } else {
+                    $(".icon-head").attr("src", "/nervous/images/picture01.png");
+                    $(".head-img").attr("src", "/nervous/images/picture01.png");
+                }
+                if ("https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844".indexOf("/base/index") != -1 || "https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844".indexOf("/res/pc/curriculum/schedule.html") != -1) {
+                    $("#appDownload").show();
+                } else {
+                    $("#appDownload").hide();
+                }
+                var backgroundFlag = "#ffffff";
+                if ("https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844".indexOf("/education/student/stuActiveListEducation") != -1) {
+                    backgroundFlag = "none";
+                }
+                $("#mainright").html('<iframe id="frame_content" name="frame_content"  allowfullscreen="true" allowtransparency="true"  frameborder="0" scrolling="auto" style="border: 0px;height:calc(100vh - 80px); float:left;position: relative;z-index: 99; background:' + backgroundFlag + ';" width="100%" src=""></iframe>');
+
+                if (navFlag) {
+                    var _data = $("#first" + "409652");
+                    setNavList("409652", "https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844", _data, "0");
+                } else {
+                    $("#frame_content").attr("src", "https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844");
+                }
+                try {
+                    iFrameResizeSetting();
+                } catch (error) {
+
+                }
+                $('html , body').animate({ scrollTop: 0 }, 0);
+                $("#item_first").html("首页");
+                scrollTop();
+            })
+            function setUrl(id, url, _this, aot_value) {
+                $("#to_top").remove();
+                var navUrl = url;
+                var backHigh = 80;
+                var menuTxt = $(_this).attr('name');
+                $(_this).attr('aria-label', menuTxt + '菜单项已访问').siblings().removeAttr('aria-label');
+                $(_this).addClass("active").siblings().removeClass("active");
+                $(_this).attr('focus_element', '1').siblings().attr('focus_element', '0');
+                $(_this).nextAll().attr('tabindex', -1);
+                if (id != null && id == 'app') {
+                    $("#item_first").hide();
+                    if (!navFlag) {
+                        $("#item_back").show();
+                        backHigh = 160;
+                        $("#item_back").attr("onclick", "setUrl('back','" + scheme + "/base/app?fid=" + siteFid + "&tid=" + tid + "')");
+                        $(".con-right .right-con ").css("margin-top", "144px");
+                    }
+                } else if (id != null && id == 'market') {
+                    $("#item_first").hide();
+                    if (!navFlag) {
+                        $("#item_back").show();
+                        backHigh = 160;
+                        var dataurl = $(".menu a.active").attr('dataurl');
+                        $("#item_back").attr("onclick", "setUrl('back','" + dataurl + "')");
+                        $(".con-right .right-con ").css("margin-top", "144px");
+                    }
+                } else if (id != null && id == 'common') {
+                    $("#item_first").hide();
+                    $("#item_back").hide();
+                    $(".con-right .right-con ").css("margin-top", "80px");
+                } else if (id != null && id == 'index') {
+                    $("#item_first").hide();
+                    if (!navFlag) {
+                        $("#item_back").show();
+                        backHigh = 160;
+                        $("#item_back").attr("onclick", "setUrl('back','" + scheme + "/base/index?fid=" + siteFid + "&tid=" + tid + "')");
+                        $(".con-right .right-con ").css("margin-top", "144px");
+                    }
+                } else if (id != null && id == 'back') {
+                    if (!navFlag) {
+                        $("#item_first").show();
+                    }
+                    $("#item_back").hide();
+                    $(".con-right .right-con ").css("margin-top", "80px");
+                } else if (id != null && id == 'rapp') {
+                    $("#item_first").hide();
+                    if (!navFlag) {
+                        $("#item_back").show();
+                        backHigh = 160;
+                        $("#item_back").attr("onclick", "setUrl('recentsapp','" + scheme + "/base/getRecentsApp')");
+                        $(".con-right .right-con ").css("margin-top", "144px");
+                    }
+                } else {
+                    if (id == 'account') {
+                        $("#item_first").html('账号管理');
+                    } else if (id == 'recentsapp') {
+                        $("#item_first").html('最近使用');
+                    } else {
+                        $("#item_first").html($(_this).attr("name"));
+                    }
+                    if (!navFlag) {
+                        $("#item_first").show();
+                    }
+                    $("#item_back").hide();
+                    if (aot_value != 1 && aot_value != 2) {
+                        $(_this).addClass("active").siblings().removeClass("active");
+                    }
+                    $(".con-right .right-con ").css("margin-top", "80px");
+                }
+
+                if (aot_value == 1) {
+                    window.open("/space/out_link.shtml?ename=&burl=" + url);
+                } else if (aot_value == 2) {
+                    window.open(url);
+                } else if (aot_value == 3) {
+                    window.location.href = "/space/out_link.shtml?ename=&burl=" + url;
+                } else if (aot_value == 4) {
+                    window.location.href = url;
+                } else {
+                    if (url.indexOf("/base/index") != -1 || url.indexOf("/res/pc/curriculum/schedule.html") != -1) {
+                        $("#appDownload").show();
+                    } else {
+                        $("#appDownload").hide();
+                    }
+                    if (url.indexOf("/wfw/space/redirectUrl") != -1) {
+                        $.ajax({
+                            type: "post",
+                            url: "/wfw/space/verifyApp",
+                            data: { tid: tid, fid: siteFid, nappId: id },
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                if (data.status) {
+                                    //是 审批/表单 应用，显示权限按钮
+                                    url = url + "&permissionGroupId=" + data.permissionGroupId;
+                                }
+                            }
+                        })
+                    }
+                    if (url.indexOf("/base/app") != -1 || url.indexOf("/base/index") != -1) {
+                        if (id == null || id == undefined || id == '' || id != 'common') {
+                            url = url + "&fid=" + siteFid + "&tid=" + tid;
+                        }
+                    } else {
+                        if (url.indexOf("notice.chaoxing.com") != -1 || url.indexOf("/pc/notice/myNotice") != -1) {
+                            //$(_this).find(".inform-txt").hide();
+                        } else {
+                            //$(".inform-txt").show();
+                        }
+                    }
+
+                    var backgroundFlag = "#ffffff";
+                    if (url.indexOf("/education/student/stuActiveListEducation") != -1) {
+                        backgroundFlag = "none";
+                    }
+                    $("#mainright").html('<iframe id="frame_content" name="frame_content" allowfullscreen="true" allowtransparency="true"  frameborder="0" scrolling="auto" style="border: 0px; height:calc(100vh - ' + backHigh + 'px); float:left;position: relative;z-index: 99; background: ' + backgroundFlag + ';" width="100%" src=""></iframe>');
+                    $("#frame_content").attr("src", url);
+                    $("#centerInput").attr('tabindex', 0).focus();
+
+                    if (id != null && id != undefined && id != 'app' && navFlag) {
+                        setNavList(id, navUrl, _this, aot_value);
+                    }
+
+                    var offsetTop = $("#frame_content").offset().top;
+                    var offsetLeft = $("#frame_content").offset().left;
+                    var marObj = {
+                        paddingL: offsetLeft,
+                        paddingT: offsetTop,
+                        paddingR: 0,
+                        fullScreen: 1
+                    };
+                    document.getElementById('frame_content').contentWindow.postMessage(JSON.stringify(marObj), "*");
+
+                    $('html , body').animate({ scrollTop: 0 }, 0);
+
+                }
+            }
+
+            function switchSite(fid, name, _this, wfworg, tid, roleId) {
+                var nowFid = '1032';
+                if (nowFid != null && nowFid != undefined && nowFid != "" && fid != null && fid != undefined && fid != "" && nowFid == fid) {
+                    location.href = "/base?fid=" + fid + "&wfworg=" + wfworg + "&tid=" + tid;
+                    return;
+                }
+                $(_this).addClass("active").siblings().removeClass("active");
+                $.ajax({
+                    url: '/base/switchSite',
+                    data: { siteFid: fid, siteName: name, siteTid: tid, siteRoleId: roleId },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status) {
+                            var schemeType = 'https';
+                            if (schemeType != null && schemeType != undefined && schemeType != '') {
+                                schemeType = 'http';
+                            }
+                            if (data.b) {
+                                if (data.domain.indexOf(window.location.host) != -1) {
+                                    location.href = "/base?fid=" + fid + "&wfworg=" + wfworg + "&tid=" + tid;
+                                } else {
+                                    if (data.domain.indexOf("http://") != -1 || data.domain.indexOf("https://") != -1) {
+                                        window.open(data.domain);
+                                    } else {
+                                        window.open(schemeType + "://" + data.domain);
+                                    }
+                                }
+                            } else {
+                                if (window.location.host.indexOf("i.chaoxing.com") != -1) {
+                                    var title = "";
+                                    if (name != null && name != undefined && name != "" && name.length > 13) {
+                                        title = name.substring(0, 13) + "..."
+                                    } else {
+                                        title = name;
+                                    }
+                                    $("#siteName").html(title).attr("title", name);
+                                    location.href = "/base?fid=" + fid + "&wfworg=" + wfworg + "&tid=" + tid;
+                                } else {
+                                    window.open(schemeType + "://i.chaoxing.com/base?fid=" + fid + "&wfworg=" + wfworg + "&tid=" + tid);
+                                }
+
+                            }
+                        }
+                    }
+                })
+            }
+
+            $(document).on("keydown", function (e) {
+                if ($(e.target).attr('data-read') === '已阅读完' && e.keyCode == 9) {
+                    if ($(".menu a.active").index() < $(".menu a").length - 1) {
+                        $(".menu a").siblings().attr('tabindex', 0);
+                        $(".menu a[focus_element='1']").focus();
+                    }
+                }
+                /*  if ($(e.target).index() == 0 && $(e.target).parents('.menu').length > 0) {
+                     document.querySelector('#conRight').focus();
+                 } */
+                if (e.shiftKey && e.keyCode == 9 && $(e.target).parents('.menu').length > 0) {
+                    $(e.target).siblings().attr('tabindex', 0)
+                }
+            });
+            //英文名定位 添加定位滚动效果
+            function scrollTop() {
+                var ptopnus = $(".menu").offset().top;
+                var currentNus = $(".menubar a.active").eq(0).offset().top;
+                let real = currentNus - ptopnus;
+                $(".menu").mCustomScrollbar("scrollTo", real);
+            }
+
+        </script>
+
+        <script type="text/javascript">
+            var timer;
+            function scroll(dom) {
+                var maxW = dom.find("span").width() - dom.width();
+                if (maxW <= 0) {
+                    return;
+                }
+                dom.css("text-overflow", "unset");
+                timer = setInterval(function () {
+                    dom[0].scrollLeft++;
+                    if (dom[0].scrollLeft >= maxW) {
+                        clearInterval(timer);
+                    }
+                }, 10);
+            }
+
+        </script>
+        <div class="con-right style3" tabindex="-1">
+            <div class="pageBack" id="item_back" style="display:none;">
+                <img src="/nervous/images/back-btn.png">
+                <span>返回</span>
+            </div>
+            <div class="right-con" style="overflow-x: hidden; min-width: 900px; margin-top: 80px;">
+                <div class="bodyBg"></div>
+                <div type="" role="none" tabindex="-1" aria-label="已进入菜单，请按tab键" id="centerInput"
+                    style="position: fixed;z-index: -11;"></div>
+                <div class="center" style="padding-top: 0px;" id="mainright" tabindex="-1"><iframe id="frame_content"
+                        name="frame_content" allowfullscreen="true" allowtransparency="true" frameborder="0"
+                        scrolling="auto"
+                        style="border: 0px;height:calc(100vh - 80px); float:left;position: relative;z-index: 99; background:#ffffff;"
+                        width="100%"
+                        src="https://kb.chaoxing.com/res/pc/curriculum/schedule.html?s=9f3babd15d57d94a4af707cec0825844"></iframe>
+                </div>
+                <div class="" id="readEnd" aria-label="" data-read="已阅读完" tabindex="0"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="appDownload" id="appDownload" style="">
+        <ul>
+            <li class="appDown black" onclick="downloadPc();">
+                <span class="download"><img src="/nervous/images/download.png"></span>PC客户端下载
+            </li>
+            <li class="appDown black" onclick="downloadZb();">
+                <span class="download"><img src="/nervous/images/download.png"></span>直播客户端下载
+            </li>
+        </ul>
+    </div>
+    <div class="popupCon" id="pu-code">
+        <div class="popup pu-code">
+            <div class="pu-title" style="margin-top: 0;">
+                <h6>请输入邀请码</h6>
+            </div>
+            <div class="pu-con">
+                <input type="text" id="invitecode" placeholder="请输入课程、应用、小组、直播邀请码">
+            </div>
+            <div class="pu-btns">
+                <span class="btn-cancel">取消</span>
+                <span class="btn-sure">确定</span>
+            </div>
+        </div>
+    </div>
+    <div class="popupCon" id="pu-tips">
+        <div class="popup pu-tips">
+            <div class="pu-title">
+                <h6>提示</h6>
+            </div>
+            <div class="pu-con">
+                <img src="/nervous/images/errorTips.png" alt="">
+                <p>该邀请码应用暂无pc端访问方式</p>
+            </div>
+            <div class="pu-btns">
+                <span class="btn-cancel">取消</span>
+                <span class="btn-sure">确定</span>
+            </div>
+        </div>
+    </div>
+    <div class="popupCon" id="pu-course">
+        <div class="popup pu-course" style="width: 440px; height: auto;">
+            <div class="pu-title">
+                <h6>应用详情</h6>
+                <span class="pu-close"></span>
+            </div>
+            <div class="pu-con">
+                <img src="" class="course-cover" alt="">
+                <div class="course-mes">
+                    <h6></h6>
+                </div>
+                <input type="hidden" id="appId" value="">
+                <input type="hidden" id="appCode" value="">
+                <input type="hidden" id="appUrl" value="">
+                <input type="hidden" id="appName" value="">
+            </div>
+            <div class="pu-btns">
+                <span class="btn-join">访问应用</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pouop puTips" id="puTips">
+        <!--    mark-icon.png  sucese-icon.png  添加成功  添加失败-->
+        <img src="/nervous/images/error-icon.png" alt="">
+        <p></p>
+    </div>
+
+    <div class="popup" style="display:none" id="sitePopup">
+        <div class="window">
+            <div class="p-title">
+                切换单位/角色 <span class="close"></span>
+            </div>
+            <div class="search">
+                <input type="text" placeholder="请输入单位名称/fid搜索" id="searchName" oninput="searchSiteList();">
+                <span onclick="searchSiteList();" style="cursor: pointer;">搜索</span>
+            </div>
+            <div class="company">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="z-popup-wrap">
+        <div class="pu-del">
+            <div class="pu-title">提示</div>
+            <div class="pu-con">
+                <img src="/nervous/images/errorTips.png" alt="">
+                <div class="z-tips">由于您在本页面长时间未操作，系统将刷新页面，请您稍后再进行操作</div>
+            </div>
+            <div class="pu-btn">
+                <span>确认</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/nervous/js/jquery.mCustomScrollbar.concat.min.js?t=1701664569952"></script>
+    <script type="text/javascript" src="/nervous/js/comon.js?t=1701664569952"></script>
+    <script type="text/javascript" src="/nervous/js/page.js?t=1701664569952"></script>
+    <script type="text/javascript" src="/nervous/js/iframeResizer.min.js?t=1701664569952"></script>
+    <script>
+        var siteFid = '1032';
+        var tid = '37451';
+        var page = 1;
+        var pageSize = 10;
+        var scrollFlag = true;
+        $(document).ready(function () {
+            if (siteFid == 122826) { //单位定制增加无障碍工具栏
+                var script = document.createElement('script');
+                script.src = "https://mh.chaoxing.com/sv2/mh1plugs/guide-components.js";
+                document.getElementsByTagName('head')[0].appendChild(script);
+
+                setTimeout(function () {
+                    if ($("#tabbox").length > 0 && !$("#tabbox").is(':hidden')) {
+                        $("#openRead").addClass('hasOpen').text('关闭无障碍面板');
+                    }
+                },& nbsp; 2200)
+
+        $("#openRead").click(function () {
+            if ($(this).hasClass('hasOpen')) {
+                accessiblePlugs.closetools();
+                $(this).removeClass('hasOpen').text('开启无障碍面板')
+            } else {
+                $(this).addClass('hasOpen');
+                $(this).text('关闭无障碍面板');
+                if (accessiblePlugs.isFirstOpen) {
+                    accessiblePlugs.resetDom();
+                    accessiblePlugs.isFirstOpen = false;
+                } else {
+                    accessiblePlugs.openguid();
+                }
+            }
+        });
+
+        $("body").on('click', '#contents div:last-child', function () {
+            $("#openRead").removeClass('hasOpen').text('开启无障碍面板');
+        })
+        }
+        $(".con-left").css("top", $(".r-header").height());
+        /* 导航下拉 */
+        $(".head-nav-more .head-more").click(function (e) {
+            e.stopPropagation();
+            $(this).next().stop().slideToggle('fast');
+        });
+        $(document).click(function (e) {
+            e.stopPropagation();
+            $(".head-more-list").slideUp('fast');
+        });
+        //   删除头部导航
+        $(".head-nav").on('click', ".head-nav-list li .nav-close", function (e) {
+            e.stopPropagation();
+            $(this).parents('li').remove();
+            var moreLi = $(".head-more-list ul li");
+            var dataIdThis = $(this).parent().find('.nav-name').attr('data-id');
+            if (moreLi.length > 0) {
+                var moreFistLi = moreLi.eq(0).remove();
+                $(".head-nav-list ul").append(moreFistLi);
+                if ($(".head-more-list ul li").length == 0) {
+                    $(".head-nav-more").hide();
+                }
+            }
+        });
+        $(".head-nav").on('click', ".head-more-list li .nav-close", function (e) {
+            e.stopPropagation();
+            $(this).parents('li').remove();
+            if ($(".head-more-list ul li").length == 0) {
+                $(".head-nav-more").hide();
+            }
+        });
+
+        document.onkeydown = function (e) {
+            if (e.keyCode === 13) {
+                document.activeElement.onclick(e);
+                $("#centerInput").click();
+            }
+        };
+	});
+
+        function setNavList(dataId, navUrl, _this, aot_value) {
+            var dataName = '';
+            if (dataId != null && dataId != undefined && dataId == 'account') {
+                dataName = '账号管理';
+            } else {
+                dataName = $(_this).attr("name");
+            }
+            var onc = "#first" + dataId;
+            var setUrlT = "setUrl('" + dataId + "','" + navUrl + "','" + onc + "','" + aot_value + "');";
+            $(".head-nav-list ul li").removeClass('cur');
+            $(".head-more-list ul li").removeClass('cur');
+            var dataLi = $("#nav" + dataId);
+            if (dataLi.length > 0) {
+                dataLi.addClass('cur');
+            } else {
+                var navLen = $(".head-nav-list ul li").length;
+                if (navLen > 5) {
+                    $(".head-nav-more").show();
+                    var navListStr2 = '<li class="cur" id="nav' + dataId + '"><span class="nav-name" data-id="' + dataId + '" onclick="' + setUrlT + '">' + dataName + '</span><span class="nav-close"></span></li>';
+                    $(".head-more-list ul").append(navListStr2);
+                } else {
+                    $(".head-nav-more").hide();
+                    var navListStr1 = '<li class="cur" id="nav' + dataId + '"><span class="nav-name" data-id="' + dataId + '" onclick="' + setUrlT + '">' + dataName + '</span><span class="nav-close"></span></li>';
+                    $(".head-nav-list ul").append(navListStr1);
+                }
+            }
+        };
+        function siteListShow() {
+            $("#sitePopup .company").mCustomScrollbar("destroy");
+            $("body").css("overflow", "hidden")
+            $.ajax({
+                url: '/base/cacheUserOrg',
+                data: { searchName: '', _t: new Date() },
+                dataType: 'json',
+                type: 'post',
+                success: function (data) {
+                    if (data.site.length > 0) {
+                        var html = "";
+                        for (var j = 0; j < data.site.length; j++) {
+                            html += "<li id = '" + data.site[j].fid + "' onclick=\"switchSite(" + data.site[j].fid + ",'" + data.site[j].schoolname + "',this,'" + data.site[j].wfworg + "'," + data.site[j].tid + ",'" + data.site[j].roleid + "')\"";
+                            if (siteFid == data.site[j].fid && tid == data.site[j].tid) {
+                                html += " class=\"active\"";
+                            }
+                            html += " title='" + data.site[j].schoolname + "'><h3>" + data.site[j].schoolname + " </h3><span class='unit-select'></span></li>";
+                        }
+                        $("#sitePopup ul").html(html);
+                    } else {
+                        $("#sitePopup ul").html('');
+                    }
+                }
+            })
+            $("#sitePopup").show();
+            $("#sitePopup .company").mCustomScrollbar({ theme: "dark-3" });
+        }
+
+        function searchSiteList() {
+            $("#sitePopup .company").mCustomScrollbar("destroy");
+            $("body").css("overflow", "hidden")
+            var searchName = $("#searchName").val();
+            if (searchName == null || searchName == undefined) {
+                searchName = '';
+            }
+            if (searchName != '') {
+                var lis = $("#sitePopup ul li");
+                if (lis != null) {
+                    for (var i = 0; i <= lis.length; i++) {
+                        var li = lis[i];
+                        if (i == 1) {
+                            //alert($(li).attr('id'));
+                            //alert($(li).attr('title'));
+                            //alert(searchName);
+                        }
+                        var id = $(li).attr('id') + "";
+                        var title = $(li).attr('title') + "";
+                        if (id == searchName || title.indexOf(searchName) != -1) {
+                            $(li).show();
+                        } else {
+                            $(li).hide();
+                        }
+                    }
+                }
+            } else {
+                var lis = $("#sitePopup ul li");
+                if (lis != null) {
+                    for (var i = 0; i <= lis.length; i++) {
+                        $(lis[i]).show();
+                    }
+                }
+            }
+
+        }
+
+        $("#sitePopup .close").click(function () {
+            $("#sitePopup").hide();
+            $("body").css("overflow", "auto")
+        })
+
+        $("#sitePopup .company").on("click", "li", function () {
+            $("#sitePopup").hide();
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+
+        //  添加邀请码
+        $(".appCode").click(function () {
+            $("#pu-code").fadeIn();
+        });
+        //   邀请码确定
+        $("#pu-code").on("click", ".pu-btns .btn-sure", function () {
+            var invitecode = $("#invitecode").val();
+            if (invitecode == null || invitecode == undefined) {
+                invitecode = '';
+            }
+            $.ajax({
+                url: '/base/getInviteCode',
+                data: { invitecode: invitecode, fid: siteFid, _t: new Date() },
+                dataType: 'json',
+                type: 'post',
+                success: function (data) {
+                    if (data.status) {
+                        if (data.flag == 1 || data.flag == '1') {
+                            if (data.appUrl != null && data.appUrl != undefined && data.appUrl != '' && data.appUrl != 'null') {
+                                $("#pu-course").find(".pu-con img").attr("src", data.appImage);
+                                $("#pu-course").find(".pu-con .course-mes h6").text(data.appName);
+                                $("#appCode").val(invitecode);
+                                $("#appId").val(data.appId);
+                                $("#appUrl").val(data.appUrl);
+                                $("#appName").val(data.appName);
+                                $("#pu-code").fadeOut();
+                                $("#pu-course").show();
+                            } else {
+                                $("#pu-code").fadeOut();
+                                $("#pu-tips").show();
+                            }
+                        } else if (data.flag == 2 || data.flag == '2') {
+                            $("#pu-code").fadeOut();
+                            window.parent.window.setUrl('common', data.url);
+                        } else {
+                            $("#pu-code").fadeOut();
+                            window.open(data.url);
+                        }
+                    } else {
+                        var msg = '获取失败';
+                        if (data.msg != null && data.msg != undefined && data.msg != '') {
+                            msg = data.msg;
+                        }
+                        $("#puTips").find("p").text(msg);
+                        $("#puTips").fadeIn();
+                        setTimeout(function () {
+                            $("#puTips").fadeOut()
+                        }, 2000)
+                    }
+                }
+            })
+        });
+        //   邀请码取消
+        $("#pu-code").on("click", ".pu-btns .btn-cancel", function () {
+            $(".popupCon").fadeOut();
+        });
+        //    课程确定
+        $("#pu-course").on("click", ".pu-btns .btn-join", function () {
+            var appUrl = $("#appUrl").val();
+            var appCode = $("#appCode").val();
+            var appName = $("#appName").val();
+            var appId = $("#appId").val();
+            if (appId != null && appId != undefined && appId != '' &&
+                appCode != null && appCode != undefined && appCode != '' &&
+                appUrl != null && appUrl != undefined && appUrl != '') {
+                $.ajax({
+                    url: '/base/setRecentsApp',
+                    data: { appName: appName, appCode: appCode, appId: appId, _t: new Date() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function (data) { }
+                })
+                $("#pu-course").fadeOut()
+                window.open(appUrl);
+            }
+        });
+
+        //    课程取消
+        $("#pu-course").on("click", ".pu-close", function () {
+            $("#pu-course").fadeOut()
+        });
+        //  提示取消
+        $("#pu-tips").on("click", ".pu-btns .btn-cancel", function () {
+            $("#pu-tips").fadeOut();
+        });
+        //  提示确定
+        $("#pu-tips").on("click", ".pu-btns .btn-sure", function () {
+            $(".popupCon").fadeOut();
+        })
+        //session过期提示
+        $(".z-popup-wrap").on("click", ".pu-del .pu-btn span", function () {
+            $(".z-popup-wrap").hide();
+            location.reload(true);
+        })
+    </script>
+
+    <!-- 子页面弹出框全页面覆盖公共方法 -->
+    <script>
+        var offsetFlag = 0;
+        window.onload = function () {
+            // 父页面初始信息
+            var offsetTop = $("#frame_content").offset().top;
+            var offsetLeft = $("#frame_content").offset().left;
+            var iframeH = $(window).height() - $(".header").height();
+            var iframeW = $("#frame_content").width() - offsetLeft;
+            var marObj = {
+                paddingL: offsetLeft,
+                paddingT: offsetTop,
+                paddingR: 0,
+                fullScreen: 1,
+                cmd: 1001,
+                bottom: 0,
+                height: iframeH,
+                left: offsetLeft,
+                right: 0,
+                toggle: true,
+                top: offsetTop,
+                width: iframeW
+            };
+            var marObj1 = {
+                paddingL: offsetLeft,
+                paddingT: offsetTop,
+                paddingR: 0,
+                fullScreen: 1,
+                cmd: 1001,
+                bottom: 0,
+                height: iframeH,
+                left: 0,
+                right: 0,
+                toggle: true,
+                top: 0,
+                width: iframeW
+            };
+            // 父页面向子页面传递信息
+            document.getElementById('frame_content').contentWindow.postMessage(JSON.stringify(marObj1), "*");
+            // 获取子页面传过来的信息
+            window.addEventListener('message', function (e) {
+
+                try {
+                    var data = JSON.parse(e.data);
+                    if (data.toggle == true || data == "") {
+                        if (data.color) {
+                            document.getElementById('frame_content').contentWindow.postMessage(JSON.stringify(marObj1), '*');
+                        } else {
+                            document.getElementById('frame_content').contentWindow.postMessage(JSON.stringify(marObj), '*');
+                        }
+
+                    } else {
+                        document.getElementById('frame_content').contentWindow.postMessage(JSON.stringify(marObj1), '*');
+                    }
+
+                    if (data != null && data != undefined && data.toggle != null && data.toggle != undefined && data.toggle == true) {
+                        if (data.color) {
+
+                            $("#frame_content").css({
+                                position: "fixed",
+                                left: 0,
+                                top: 0,
+                                'z-index': 99999,
+                                width: '100%',
+                                height: '100%',
+                                'padding-left': offsetLeft + 'px',
+                                'padding-top': offsetTop + 'px',
+                                background: data.color,
+                                'box-sizing': 'border-box',
+                                'min-width': '1400px'
+                            })
+                        } else {
+                            $("#frame_content").css({
+                                position: "fixed",
+                                left: 0,
+                                top: 0,
+                                'z-index': 99999,
+                                width: '100%',
+                                height: '100%',
+                                background: 'none',
+                                'box-sizing': 'border-box'
+                            })
+                        }
+
+                    } else {
+                        $("#frame_content").css({
+                            position: "initial",
+                            left: 0,
+                            top: 0,
+                            'z-index': 2,
+                            width: iframeW + 'px',
+                            height: 'calc(100vh - 80px)',
+                            'padding-left': 0,
+                            'padding-top': 0,
+
+                            'min-width': '100%'
+                        })
+
+
+                        document.getElementById('frame_content').postMessage(JSON.stringify(marObj1), '*');
+                    }
+                    if (data != null && data != undefined && data.type != null && data.type != undefined && data.type == 'notice') {
+                    }
+                } catch (e) {
+
+                }
+
+            }, false);
+        };
+
+    </script>
+    <script type="text/javascript">
+        var iframe = document.getElementById("frame_content");
+        iframe.onload = function () {
+            try {
+                iframe.contents().find(".Wrapbody").css("margin", "0 auto");
+                iframe.contents().find(".con-right").css("width", "100%");
+            } catch (err) {
+            }
+        }
+        function iframeWidthResize() {
+            if ($('.left-con').is(':hidden')) {
+                var iframeW = $(window).width() - 120;
+                if (iframeW < 1060) {
+                    iframeW = 1060;
+                }
+                $(".right-con .center").css({ width: iframeW, background: "#ffffff", overflow: "hidden", margin: "0 60px" })
+                $(".right-con .center").width(iframeW);
+                $("#frame_content").css({ width: iframeW });
+            } else {
+                var iframeW = $(window).width() - $(".con-left").width() - 120;
+                if (iframeW < 1060) {
+                    iframeW = 1060;
+                }
+                $(".right-con .center").css({ width: iframeW, background: "#ffffff", overflow: "hidden", margin: "0 60px" })
+                $(".right-con .center").width(iframeW);
+                $("#frame_content").css({ width: iframeW });
+            }
+        };
+
+        $(window).resize(function () {
+            if (offsetFlag == 0) {
+                var iframeH = $(window).height() - $(".space-unit").height() - $(".user-block").height();
+                $(".left-con .menu").height(iframeH);
+                setTimeout(function () {
+                    var winH = $(window).height();
+                    /*$("#frame_content").css({
+                        height:winH,
+                        'min-height':"inherit"
+                    });*/
+                }, 300)
+            } else {
+                setTimeout(function () {
+                    var winH = $(window).height();
+                    $("#frame_content").css({
+                        position: "fixed",
+                        left: 0,
+                        top: 0,
+                        'z-index': 99999,
+                        width: '100%',
+                        height: winH,
+                        'min-height': "inherit"
+                    });
+                }, 300)
+            }
+        });
+        var domain = "chaoxing.com";
+        if (domain == null || domain == undefined || domain == "" || domain == "null") {
+            document.domain = "chaoxing.com";
+        } else {
+            document.domain = domain;
+        }
+        function setTab(id) {
+            $("#li_" + id).addClass("activess").siblings().removeClass("activess");
+            frame_content.window.setTab_1(id);
+        }
+
+        var winScroll = $(window.parent.window) ? $(window.parent.window) : $(window);
+        var docScroll = $(window.parent.document) ? $(window.parent.document) : $(document);
+        winScroll.scroll(function () {
+            if (winScroll.scrollTop() + winScroll.height() >= docScroll.height() - 5) {
+                try {
+                    document.getElementById('frame_content').contentWindow.loading();
+                } catch (err) {
+                    return false;
+                }
+            }
+        });
+
+        function reloadImg() {
+            $(".head-img").attr("src", $(".head-img").attr("src") + "?t=" + Math.random());
+            $(".icon-head").attr("src", $(".icon-head").attr("src") + "?t=" + Math.random());
+        }
+
+        var iframe = document.getElementById("frame_content");
+
+
+        function setScheduledTask(hour, minute, callTask) {
+            let taskTime = new Date();
+            taskTime.setHours(hour);
+            taskTime.setMinutes(minute);
+            let timeDiff = taskTime.getTime() - (new Date()).getTime(); // 获取时间差
+            timeDiff = timeDiff > 0 ? timeDiff : (timeDiff + 24 * 60 * 60 * 1000);
+            setTimeout(function () {
+                callTask(); // 首次执行 
+                setInterval(callTask, 24 * 60 * 60 * 1000); // 24小时为循环周期
+            }, timeDiff);
+        }
+        setScheduledTask(3, 0, logout);
+
+
+
+    </script>
+
 </body>
 
 </html>
